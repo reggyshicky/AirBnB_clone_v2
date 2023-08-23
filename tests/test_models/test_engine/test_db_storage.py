@@ -2,13 +2,13 @@
 """module for the file_storage tests"""
 import unittest
 import MySQLdb
-from models.user import user
+from models.user import User
 from models import storage
 from datetime import datetime
 import os
 
 
-@unittests.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                   'db_storage test not supported')
 class TestDBStorage(unittest.TestCase):
     """testing dbstorage engine"""
@@ -137,7 +137,7 @@ class TestDBStorage(unittest.TestCase):
         new = User(
             email='regina@gmail.com',
             password='password',
-            first_name='Reginah'
+            first_name='Reginah',
             last_name='Shikanda'
         )
         dbc = MySQLdb.connect(

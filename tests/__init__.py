@@ -7,7 +7,7 @@ from typing import TextIO
 from models.engine.file_storage import FileStorage
 
 
-def clear_stram(stream: TextIO):
+def clear_stream(stream: TextIO):
     """clears the contents of a given stream, which is
     a text stream e.g file stream opened in text mode
     Args: stream (TextIO): The stream to clear

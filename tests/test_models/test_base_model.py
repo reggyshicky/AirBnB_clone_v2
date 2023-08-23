@@ -87,7 +87,7 @@ class test_basemodel(unittest.TestCase):
         inst = self.value()
         inst.firstname = 'Reggy'
         inst.lastname = 'Shicky'
-        self.assertIn('firstname'. inst.to_dict())
+        self.assertIn('firstname', inst.to_dict())
         self.assertIn('lastname', inst.to_dict())
         self.assertIn('firstname', self.value(firstname='Reggy').to_dict())
         self.assertIn('lastname', self.value(lastname='Shicky').to_dict())
@@ -127,10 +127,10 @@ class test_basemodel(unittest.TestCase):
         # Test to_dict output contradiction
         mdl = self.value()
         self.assertIn('__class__', self.value().to_dict())
-        self.assertNotIn('__class__', self.value().to_dict)
-        self.assertNotEqual(mdl.to_dict(), mdl._dict__)
+        self.assertNotIn('__class__', self.value().__dict__)
+        self.assertNotEqual(mdl.to_dict(), mdl.__dict__)
         self.assertNotEqual(
-            mdl.todict()['__class__'].
+            mdl.to_dict()['__class__'],
             mdl.__class__
         )
         # Tests to_dict with args
@@ -150,7 +150,7 @@ class test_basemodel(unittest.TestCase):
 
     def test_kwargs_one(self):
         """ Testing kwargs with one arg"""
-        n = {'Name': 'test'}
+        n = {'name': 'test'}
         new = self.value(**n)
         self.assertEqual(new.name, n['name'])
 

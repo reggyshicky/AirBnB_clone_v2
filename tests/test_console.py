@@ -26,7 +26,7 @@ working with code that expects file input or output
 """
 
 
-class TestHBNBCommand(unittest.TestCsse):
+class TestHBNBCommand(unittest.TestCase):
     """represents the test class for the HBNBCommand class
     """
     @unittest.skipIf(
@@ -43,13 +43,13 @@ class TestHBNBCommand(unittest.TestCsse):
             self.assertIn("'name': 'Texas'", cout.getvalue().strip())
             clear_stream(cout)
             cons.onecmd('create User name="Milly" age=17 height=5.9')
-            mdl_id = cout.getvalue().strp()
+            mdl_id = cout.getvalue().strip()
             self.assertIn('User.{}'.format(mdl_id), storage.all().keys())
             clear_stream(cout)
             cons.onecmd('show User {}'.format(mdl_id))
             self.assertIn("'name': 'Milly'", cout.getvalue().strip())
             self.assertIn("'age': 17", cout.getvalue().strip())
-            self.assertIn("'height' : 5.9", cout.getvalue().strip())
+            self.assertIn("'height': 5.9", cout.getvalue().strip())
 
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') != 'db', 'DBStorage test')
