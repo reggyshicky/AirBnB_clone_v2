@@ -7,13 +7,13 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
 
-class State(BaseModel):
+class State(BaseModel, Base):
     """ State class or table model """
     __tablename__ = 'states'
     if storage_type == 'db':
         name = Column(String(128), nullable=False)
         cities = relationship('City', backref='state',
-                             cascade='all, delete, delete-orphan')
+                              cascade='all, delete, delete-orphan')
     else:
         name = ""
 
@@ -28,6 +28,6 @@ class State(BaseModel):
             cities_related = []
             cities = storage.all(City)
             for city in cities.values():
-                if city.state_id == self. id:
+                if city.state_id == self.id:
                     cities_related.append(city)
             return cities_related
