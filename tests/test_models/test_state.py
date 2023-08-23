@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" """
+"""Tests the class State"""
 from tests.test_models.test_base_model import test_basemodel
 from models.state import State
 import os
