@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Review module for the HBNB project """
 from models.base_model import BaseModel, Base
-from models.sqlalchemy.sql.schema import ForeignKey
+from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy import Column, String, ForeignKey
 from models import storage_type
 
