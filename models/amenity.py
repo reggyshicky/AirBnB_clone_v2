@@ -5,7 +5,7 @@ from models import storage_type
 from sqlalchemy import Column, String
 
 
-class Amenity(BaseModel):
+class Amenity(BaseModel, Base):
     """Amenity class"""
     __tablename__ = 'amenities'
     if storage_type == 'db':
