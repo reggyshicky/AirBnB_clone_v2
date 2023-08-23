@@ -24,10 +24,10 @@ if storage_type == 'db':
 
 
 class Place(BaseModel, Base):
-    """ A place to stay """
+    """A place to stay"""
     __tablename__ = 'places'
     if storage_type == 'db':
-        city_id = Column(String(60), ForeignKey('Cities.id'), nullable=False)
+        city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
         name = Column(String(128), nullable=False)
         description = Column(String(1024), nullable=True)
@@ -57,9 +57,10 @@ class Place(BaseModel, Base):
 
     @property
     def reviews(self):
-        """returns list of review instances with place_id
-           equals to the current Place.id
-           FileStorage relationship between Place and Review
+        """
+        returns list of review instances with place_id
+        equals to the current Place.id
+        FileStorage relationship between Place and Review
         """
         from models import storage
         all_reviews = storage.all(Review)
@@ -71,9 +72,10 @@ class Place(BaseModel, Base):
 
     @property
     def amenities(self):
-        """returns the list of Amenity instances
-           based on the attribute amenity_ids that
-           contains all Amenity.id linked to the Place
+        """
+        returns the list of Amenity instances
+        based on the attribute amenity_ids that
+        contains all Amenity.id linked to the Place
         """
         from models import storage
         all_amenities = storage.all(Amenity)
