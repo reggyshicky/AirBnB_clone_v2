@@ -129,7 +129,7 @@ class TestHBNBCommand(unittest.TestCase):
         os.getenv('HBNB_TYPE_STORAGE') != 'db', 'DBStorage test')
     def test_db_count(self):
         """Tests the count cmd with the db storage"""
-        with patch('sys.sydout', new=StringIO()) as cout:
+        with patch('sys.stdout', new=StringIO()) as cout:
             cons = HBNBCommand()
             dbc = MySQLdb.connect(
                 host=os.getenv('HBNB_MYSQL_HOST'),
