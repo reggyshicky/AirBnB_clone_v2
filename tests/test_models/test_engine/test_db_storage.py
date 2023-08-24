@@ -16,7 +16,7 @@ class TestDBStorage(unittest.TestCase):
         """testing the new and save methods"""
         db = MySQLdb.connect(user=os.getenv('HBNB_MYSQL_USER'),
                              host=os.getenv('HBNB_MYSQL_HOST'),
-                             passwd=osgetenv('HBNB_MYSQL_PWD'),
+                             passwd=os.getenv('HBNB_MYSQL_PWD'),
                              port=3306,
                              db=os.getenv('HBNB_MYSQL_DB'))
         new_user = User(**{'first_name': 'Reginah',
