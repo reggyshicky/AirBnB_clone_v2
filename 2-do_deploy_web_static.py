@@ -3,15 +3,14 @@
 an archive to your web servers, using the function do_deploy
 """
 from datetime import datetime
-from fabric.api import env, local, put, runs_once
+from fabric.api import env, local, put, run, runs_once
 import os
 
 
 env.hosts = ['100.25.170.22', '35.174.185.161']
-env.user = ubuntu
 
 
-def do_deploy(archive_path):
+def do_deploy():
     """Distributes an archive to a web server"""
     if not os.path.isdir("versions"):
         os.mkdir("versions")
