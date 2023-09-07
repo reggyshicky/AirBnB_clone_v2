@@ -31,7 +31,7 @@ then
     echo "path /data/web_static/current exists"
     sudo rm -rf /data/web_static/current;
 fi
-echo e "\e[1;32m prevent overwrite\e[0m"
+echo -e "\e[1;32m prevent overwrite\e[0m"
 echo
 
 #symblic link
