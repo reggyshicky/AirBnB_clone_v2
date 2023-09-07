@@ -4,10 +4,32 @@ Fabric script that distributes an archive to web servers
 '''
 
 import os
-from fabric.api import env, put, run
+from datetime import datetime
+from fabric.api import env, put, run, runs_once, local
 
 env.hosts = ['107.23.91.47', '35.174.211.188']
 
+def do_deploy():
+    """Static files archives"""
+    if not os.path.isdir("versions"):
+        os.mkdir("versions")
+    time = datetime.now()
+    res = "versions/web_static_{}{}{}{}{}{}.tgz".format(
+        time.year,
+        time.month,
+        time.day,
+        time.hour,
+        time.minute,
+        time.second
+    )
+    try:
+        print("Packing web_static to {}".format(res))
+        local("tar -cvzf {} web_static".format(res))
+        archize_size = os.stat(res).st_size
+        print("web_static packed: {} -> {} Bytes".format(res, archize_size))
+    except Exception:
+        res = None
+    return res
 
 def do_deploy(archive_path):
     """Deploys the static files to the host servers
