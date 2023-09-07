@@ -9,6 +9,7 @@ from fabric.api import env, put, run, runs_once, local
 
 env.hosts = ['107.23.91.47', '35.174.211.188']
 
+
 def do_deploy():
     """Static files archives"""
     if not os.path.isdir("versions"):
@@ -30,6 +31,7 @@ def do_deploy():
     except Exception:
         res = None
     return res
+
 
 def do_deploy(archive_path):
     """Deploys the static files to the host servers
