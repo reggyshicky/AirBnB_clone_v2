@@ -8,36 +8,44 @@ import os
 
 
 env.hosts = ['100.25.170.22' '35.174.185.161']
-env.user = 'ubuntu'
 
 
 def do_deploy(archive_path):
     """Deploy an archive to the web servers"""
-    if not os.path.exists(archive_path):
-        return False
-
     try:
-        # Upload the archive to /tmp/ dir in the webserver
-        put(archive_path, "/tmp/")
+        try:
+            if os.path.exists(archive_path):
+                # Extract archive to the /data/web_static/releases/
+                arc_tgz = archive_path.split("/")
+                arg_save = arc_tgz[1]
+                arc_tgz = arc_tgz[1].split(".")
+                arc_tgz = arc_tgz[0]
 
-        # Extract archive to the /data/web_static/releases/
-        filename = archive_path.split("/")[-1]
-        direc = "/data/web_static/releases/{}".format(
-            filename.split(".")[0])
-        run("sudo mkdir -p {}".format(direc))
-        run("sudo tar -xzf /tmp/{} -C {} --strip-components=1".format(
-            filename, direc))
+                # Upload archive to the server
+                put(archive_path, "/tmp")
 
-        # Delete the archive from the web server
-        run("sudo rm /tmp/{}".format(filename))
+                # save folder paths in variables
+                uncomp_fold = "/data/web_static/releases/{}".format(arc_tgz)
+                tmp_location = "/tmp/{}".format(arg_save)
 
-        # Delete symbolic link /data/web_static/current on web server
-        run("sudo rm -rf /data/web_static/current")
+                # Run remote commands on the server
+                run("mkdir -p {}".format(uncomp_fold))
+                run("tar -xzf /tmp/{} -C {}".format(tmp_location, uncomp_fold))
 
-        # Create a new symbolic link /data/web_static/current on web server
-        run("sudo ln -s {} /data/web_static/current".format(direc))
+                # Delete the archive from the web server
+                run("mv {}/web_static/* {}".format(uncomp_fold, uncomp_fold))
+                run("rm -rf {}/web_static".format(uncomp_fold))
+                run("rm -rf /data/web_static/current")
+                run("ln -sf {} /data/web_static/current".format(uncomp_fold))
+                run("sudo service nginx restart")
+                return True
+            else:
+                print("File does not exist")
+                return False
+        except Exception as err:
+            print(err)
+            return False
 
-        print("New version deployed!")
-        return True
     except Exception:
+        print("error")
         return False
