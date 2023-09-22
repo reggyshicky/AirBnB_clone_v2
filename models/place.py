@@ -24,10 +24,10 @@ if storage_type == 'db':
 
 
 class Place(BaseModel, Base):
-    """ A place to stay """
+    """A place to stay"""
     __tablename__ = 'places'
     if storage_type == 'db':
-        city_id = Column(String(60), ForeignKey('Cities.id'), nullable=False)
+        city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
         name = Column(String(128), nullable=False)
         description = Column(String(1024), nullable=True)
@@ -55,41 +55,44 @@ class Place(BaseModel, Base):
         longitude = 0.0
         amenity_ids = []
 
-    @property
-    def reviews(self):
-        """returns list of review instances with place_id
-           equals to the current Place.id
-           FileStorage relationship between Place and Review
-        """
-        from models import storage
-        all_reviews = storage.all(Review)
-        lsts = []
-        for rev in all_reviews.values():
-            if rev.place.id == self.id:
-                lsts.append(rev)
-        return lsts
+        @property
+        def reviews(self):
+            """
+            returns list of review instances with place_id
+            equals to the current Place.id
+            FileStorage relationship between Place and Review
+            """
+            from models import storage
+            all_reviews = storage.all(Review)
+            lsts = []
+            for rev in all_reviews.values():
+                if rev.place.id == self.id:
+                    lsts.append(rev)
+            return lsts
 
-    @property
-    def amenities(self):
-        """returns the list of Amenity instances
-           based on the attribute amenity_ids that
-           contains all Amenity.id linked to the Place
-        """
-        from models import storage
-        all_amenities = storage.all(Amenity)
-        lsts = []
-        for amen in all_amenities.values():
-            if amen.id in self.amenity_ids:
-                lsts.append(amen)
-        return lsts
+        @property
+        def amenities(self):
+            """
+            returns the list of Amenity instances
+            based on the attribute amenity_ids that
+            contains all Amenity.id linked to the Place
+            """
+            from models import storage
+            all_amenities = storage.all(Amenity)
+            lsts = []
+            for amen in all_amenities.values():
+                if amen.id in self.amenity_ids:
+                    lsts.append(amen)
+            return lsts
 
-    @amenities.setter
-    def amenities(self, obj):
-        """method for adding an Amenity.id to the
-           attribute amenity_ids. accepts only Amenity
-           objs
-        """
-        if obj is not None:
-            if isinstance(obj, Amenity):
-                if obj.id not in self.amenity_ids:
-                    self.amenity_ids.append(obj.id)
+        @amenities.setter
+        def amenities(self, obj):
+            """
+            method for adding an Amenity.id to the
+            attribute amenity_ids. accepts only Amenity
+            objs
+            """
+            if obj is not None:
+                if isinstance(obj, Amenity):
+                    if obj.id not in self.amenity_ids:
+                        self.amenity_ids.append(obj.id)

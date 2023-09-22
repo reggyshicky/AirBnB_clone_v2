@@ -99,7 +99,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, command):
         """ Method to exit the HBNB console"""
-        exit()
+        exit(0)
 
     def help_quit(self):
         """ Prints the help documentation for quit  """
@@ -108,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
     def do_EOF(self, arg):
         """ Handles EOF to exit program """
         print()
-        exit()
+        exit(0)
 
     def help_EOF(self):
         """ Prints the help documentation for EOF """
@@ -125,6 +125,7 @@ class HBNBCommand(cmd.Cmd):
         attr_2ignore = ('id', 'created_at', 'updated_at', '__class__')
         class_name = ''  # holds name of cls being instantiated
         nem_pattern = r'(?P<name>(?:[a-zA-Z]|_)(?:[a-zA-Z]|\d|_)*)'
+
         """
         r - The r denotes a raw string in python, which means that
         backslashes within the str are treated as literal characters
@@ -272,7 +273,7 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
-            del(storage.all()[key])
+            del (storage.all()[key])
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -291,11 +292,11 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
 
         print(print_list)
